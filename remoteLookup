@@ -2,12 +2,14 @@
 
 counter_one=1
 counter_two=0
+room=220
 total=0
-until [[ $counter_one -eq 3 && $counter_two -eq 4 ]]; do
+echo $room
+until [ $room -eq 270 ]; do
 
 
    # query for logged in students
-   current_number=$(timeout 3 ssh cs12xhh@acs-cseb240-${counter_two}${counter_one}.ucsd.edu 'ps -aef | grep login' | wc -l)
+   current_number=$(timeout 3 ssh cs12xhh@acs-cseb${room}-${counter_two}${counter_one}.ucsd.edu 'ps -aef | grep login' | wc -l)
 
    # check for a logged on user
    if [ $current_number -gt 2 ]; then
@@ -29,6 +31,34 @@ until [[ $counter_one -eq 3 && $counter_two -eq 4 ]]; do
       let counter_one=0
       let counter_two=counter_two+1
    fi
+   
+   # change the room number once all computers have been checked
+   if [ $room -eq 220 ]; then
+
+      #reset the counters and increment the room
+      if [[ $counter_one -eq 1 && $counter_two -eq 3 ]]; then
+         echo $room " total : " $total
+         let room=room+10
+         let counter_one=1
+         let total=0
+         let counter_two=0
+         echo $room
+      fi
+
+   elif [[ $room -gt 220 && $room -lt 270 ]]; then
+
+      #reset the counters and increment the room
+      if [[ $counter_one -eq 3 && $counter_two -eq 4 ]]; then
+         echo $room " total : " $total
+         let room=room+10
+         let counter_one=1
+         let total=0
+         let counter_two=0
+         echo $room
+      fi
+
+   fi
+
 
 done
 
