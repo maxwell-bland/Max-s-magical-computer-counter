@@ -1,0 +1,34 @@
+#!/bin/bash
+
+counter_one=1
+counter_two=0
+total=0
+until [[ $counter_one -eq 3 && $counter_two -eq 4 ]]; do
+
+
+   # query for logged in students
+   current_number=$(timeout 3 ssh cs12xhh@acs-cseb240-${counter_two}${counter_one}.ucsd.edu 'ps -aef | grep login' | wc -l)
+
+   # check for a logged on user
+   if [ $current_number -gt 2 ]; then
+      
+      let total=total+1
+      echo $total
+
+      # print computer number
+      echo $counter_two $counter_one
+
+   fi
+
+   # increment computer number
+   let counter_one=counter_one+1
+
+
+   # reset computer number back to what it was
+   if [ $counter_one -eq 10 ]; then
+      let counter_one=0
+      let counter_two=counter_two+1
+   fi
+
+done
+
