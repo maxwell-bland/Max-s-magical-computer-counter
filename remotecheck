@@ -9,7 +9,7 @@ until [ $room -eq 270 ]; do
 
 
    # query for logged in students
-   current_number=$(timeout 3 ssh cs12xhh@acs-cseb${room}-${counter_two}${counter_one}.ucsd.edu 'ps -aef | grep login' | wc -l)
+   current_number=$(timeout 3 ssh cs30xafl@acs-cseb${room}-${counter_two}${counter_one}.ucsd.edu 'ps -aef | grep login' | wc -l)
 
    # check for a logged on user
    if [ $current_number -gt 2 ]; then
@@ -37,7 +37,7 @@ until [ $room -eq 270 ]; do
 
       #reset the counters and increment the room
       if [[ $counter_one -eq 1 && $counter_two -eq 3 ]]; then
-         echo $room " total : " $total
+         echo "Lab "$room": "$((30 - $total))" open<br>"
          let room=room+10
          let counter_one=1
          let total=0
@@ -49,7 +49,7 @@ until [ $room -eq 270 ]; do
 
       #reset the counters and increment the room
       if [[ $counter_one -eq 3 && $counter_two -eq 4 ]]; then
-         echo $room " total : " $total
+         echo "Lab "$room": "$((42 - $total))" open<br>"
          let room=room+10
          let counter_one=1
          let total=0
